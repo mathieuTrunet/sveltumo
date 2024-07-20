@@ -8,29 +8,27 @@
   let input: string = ''
 
   const handleKeyboard = (event: KeyboardEvent) => {
-    const [, ...restOfTheWord] = wordToFind
+    const [_firstLetter, ...wordToFindMinusFirstLetter] = wordToFind
     const { key: pressedKey, isTrusted } = event
 
     if (!isTrusted) return
 
     if (pressedKey === 'Backspace') return (input = input.slice(0, -1))
 
-    if (restOfTheWord.length === input.length) {
+    if (wordToFindMinusFirstLetter.length === input.length) {
       if (pressedKey !== 'Enter') return
 
-      const userTry = getUserTry(input.toLowerCase(), restOfTheWord.join(''))
+      const userTry = getUserTry(input, wordToFindMinusFirstLetter)
 
       progress = [...progress, userTry]
 
       return (input = '')
     }
 
-    if (!pressedKey.match(/^[a-z]$/i)) return
-
-    input += pressedKey
+    if (pressedKey.match(/^[a-z]$/i)) return (input += pressedKey.toLowerCase())
   }
 
-  const getUserTry = (input: string, wordToFind: string) => {
+  const getUserTry = (input: string, wordToFind: string[]) => {
     const compareState = [...input].map((letter, key) => {
       if (letter === wordToFind[key]) return 'found'
 
@@ -58,7 +56,6 @@
   {/each}
   <InputRow
     {wordToFind}
-    letterStateList={[]}
     {input}
   />
 </main>

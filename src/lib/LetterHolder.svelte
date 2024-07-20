@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { LetterState } from '../types'
 
-  export let letter: string = '_'
-  export let state: LetterState
+  export let letter: string
+  export let state: LetterState = 'wrong'
 
   const style =
     'text-align: center; width: 70px; height: 70px; border: 1px solid black; display: inline-block; vertical-align: middle' +
@@ -15,4 +15,4 @@
   }
 </script>
 
-<span style={getStyle(state)}>{letter}</span>
+<span style={getStyle(state)}>{letter ?? '_'}</span>
